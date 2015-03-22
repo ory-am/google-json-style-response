@@ -1,7 +1,11 @@
 # google-json-style-response
 
+[![Build Status](https://travis-ci.org/ory-platform/google-json-style-response.svg)](https://travis-ci.org/ory-platform/google-json-style-response)
+
 Use one command to style your JSON responses like Google does.
 For more information, check out [Google's JSON Style Guide](https://google-styleguide.googlecode.com/svn/trunk/jsoncstyleguide.xml).
+
+**WARNING:** This package is still in development, API might receive changes and features like pagination are still missing.
 
 ## Usage
 
