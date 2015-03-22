@@ -7,37 +7,37 @@ import (
 
 type Responder struct {
 	apiVersion string
-	error      *ErrorResponse
-	data       *DataResponse
+	errorResponse      *ErrorResponse
+	dataResponse       *DataResponse
 }
 
 func New(apiVersion string) *Responder {
 	return &Responder{
 		apiVersion: apiVersion,
-		error: &ErrorResponse{
+        errorResponse: &ErrorResponse{
 			Error: Error{
 				Errors: make([]ErrorItem, 0, 1),
 			},
 		},
-		data: &DataResponse{},
+        dataResponse: &DataResponse{},
 	}
 }
 
 func (r *Responder) Success(data interface{}) Response {
-	r.data = &DataResponse{
+	r.dataResponse = &DataResponse{
 		ApiVersion: r.apiVersion,
 		Id:         uuid.NewRandom(),
 		Data:       data,
 	}
-	return *r.data
+	return *r.dataResponse
 }
 
 func (r *Responder) AddError(e ErrorItem) {
-	r.error.Error.Errors = append(r.error.Error.Errors, e)
+	r.errorResponse.Error.Errors = append(r.errorResponse.Error.Errors, e)
 }
 
 func (r *Responder) Error(code int, message string) Response {
-	r.error = &ErrorResponse{
+	r.errorResponse = &ErrorResponse{
 		ApiVersion: r.apiVersion,
 		Id:         uuid.NewRandom(),
 		Error: Error{
@@ -45,14 +45,15 @@ func (r *Responder) Error(code int, message string) Response {
 			Message: message,
 		},
 	}
-	return r.error
+	return r.errorResponse
 }
 
 func (r *Responder) Write(w http.ResponseWriter, s Response) error {
 	m, err := s.Marshal()
-	if err != nil {
-		return err
-	}
+    if err != nil {
+        responseError := r.Error(http.StatusInternalServerError, err.Error())
+        return r.Write(w, responseError)
+    }
 	w.Header().Set("Content-Type", "application/json")
 	switch s := s.(type) {
 	case *ErrorResponse:
