@@ -6,20 +6,20 @@ import (
 )
 
 type Responder struct {
-	apiVersion string
-	errorResponse      *ErrorResponse
-	dataResponse       *DataResponse
+	apiVersion    string
+	errorResponse *ErrorResponse
+	dataResponse  *DataResponse
 }
 
 func New(apiVersion string) *Responder {
 	return &Responder{
 		apiVersion: apiVersion,
-        errorResponse: &ErrorResponse{
+		errorResponse: &ErrorResponse{
 			Error: Error{
 				Errors: make([]ErrorItem, 0, 1),
 			},
 		},
-        dataResponse: &DataResponse{},
+		dataResponse: &DataResponse{},
 	}
 }
 
@@ -50,10 +50,10 @@ func (r *Responder) Error(code int, message string) Response {
 
 func (r *Responder) Write(w http.ResponseWriter, s Response) error {
 	m, err := s.Marshal()
-    if err != nil {
-        responseError := r.Error(http.StatusInternalServerError, err.Error())
-        return r.Write(w, responseError)
-    }
+	if err != nil {
+		responseError := r.Error(http.StatusInternalServerError, err.Error())
+		return r.Write(w, responseError)
+	}
 	w.Header().Set("Content-Type", "application/json")
 	switch s := s.(type) {
 	case *ErrorResponse:
