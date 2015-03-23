@@ -10,13 +10,14 @@ For more information, check out [Google's JSON Style Guide](https://google-style
 ## Usage
 
 ```
-go get github.com/ory-platform/google-json-style-response/response
+go get github.com/ory-platform/google-json-style-response/responder
+go get github.com/ory-platform/google-json-style-response/receiver
 ```
 
 ### Send a success response
 
 ```go
-import "github.com/ory-platform/google-json-style-response/response"
+import "github.com/ory-platform/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +40,7 @@ func(w http.ResponseWriter, r *http.Request) {
 ### Send an error response
 
 ```go
-import "github.com/ory-platform/google-json-style-response/response"
+import "github.com/ory-platform/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +54,7 @@ func(w http.ResponseWriter, r *http.Request) {
 ### Send multiple errors
 
 ```go
-import "github.com/ory-platform/google-json-style-response/response"
+import "github.com/ory-platform/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {
@@ -65,4 +66,27 @@ func(w http.ResponseWriter, r *http.Request) {
     err := responder.Write(w, o)
 }
 // ...
+```
+
+### Responder & Receiver
+
+Taken from the unit tests:
+
+```g
+rc := responder.New("1.0")
+o := rc.Success(struct{
+        A string
+    }{
+        A: "a",
+    })
+
+b, err := o.Marshal()
+// if err != nil ...
+
+r := New("1.1")
+reader := bytes.NewReader(b)
+response, err = r.GetResponse(reader)
+// if err != nil ...
+
+// fmt.Printf("%s", response)
 ```
