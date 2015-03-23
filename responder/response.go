@@ -1,4 +1,4 @@
-package response
+package responder
 
 import (
 	"code.google.com/p/go-uuid/uuid"

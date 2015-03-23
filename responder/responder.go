@@ -1,18 +1,18 @@
-package response
+package responder
 
 import (
 	"code.google.com/p/go-uuid/uuid"
 	"net/http"
 )
 
-type Responder struct {
+type responder struct {
 	apiVersion    string
 	errorResponse *ErrorResponse
 	dataResponse  *DataResponse
 }
 
-func New(apiVersion string) *Responder {
-	return &Responder{
+func New(apiVersion string) *responder {
+	return &responder{
 		apiVersion: apiVersion,
 		errorResponse: &ErrorResponse{
 			Error: Error{
@@ -23,7 +23,7 @@ func New(apiVersion string) *Responder {
 	}
 }
 
-func (r *Responder) Success(data interface{}) Response {
+func (r *responder) Success(data interface{}) Response {
 	r.dataResponse = &DataResponse{
 		ApiVersion: r.apiVersion,
 		Id:         uuid.NewRandom(),
@@ -32,11 +32,11 @@ func (r *Responder) Success(data interface{}) Response {
 	return *r.dataResponse
 }
 
-func (r *Responder) AddError(e ErrorItem) {
+func (r *responder) AddError(e ErrorItem) {
 	r.errorResponse.Error.Errors = append(r.errorResponse.Error.Errors, e)
 }
 
-func (r *Responder) Error(code int, message string) Response {
+func (r *responder) Error(code int, message string) Response {
 	r.errorResponse = &ErrorResponse{
 		ApiVersion: r.apiVersion,
 		Id:         uuid.NewRandom(),
@@ -48,7 +48,7 @@ func (r *Responder) Error(code int, message string) Response {
 	return r.errorResponse
 }
 
-func (r *Responder) Write(w http.ResponseWriter, s Response) error {
+func (r *responder) Write(w http.ResponseWriter, s Response) error {
 	m, err := s.Marshal()
 	if err != nil {
 		responseError := r.Error(http.StatusInternalServerError, err.Error())
