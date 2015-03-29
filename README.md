@@ -1,6 +1,6 @@
 # google-json-style-response
 
-[![Build Status](https://travis-ci.org/ory-platform/google-json-style-response.svg)](https://travis-ci.org/ory-platform/google-json-style-response)
+[![Build Status](https://travis-ci.org/ory-am/google-json-style-response.svg)](https://travis-ci.org/ory-am/google-json-style-response)
 
 Use one command to style your JSON responses like Google does.
 For more information, check out [Google's JSON Style Guide](https://google-styleguide.googlecode.com/svn/trunk/jsoncstyleguide.xml).
@@ -10,14 +10,14 @@ For more information, check out [Google's JSON Style Guide](https://google-style
 ## Usage
 
 ```
-go get github.com/ory-platform/google-json-style-response/responder
-go get github.com/ory-platform/google-json-style-response/receiver
+go get github.com/ory-am/google-json-style-response/responder
+go get github.com/ory-am/google-json-style-response/receiver
 ```
 
 ### Send a success response
 
 ```go
-import "github.com/ory-platform/google-json-style-response/responder"
+import "github.com/ory-am/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +40,7 @@ func(w http.ResponseWriter, r *http.Request) {
 ### Send an error response
 
 ```go
-import "github.com/ory-platform/google-json-style-response/responder"
+import "github.com/ory-am/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +54,7 @@ func(w http.ResponseWriter, r *http.Request) {
 ### Send multiple errors
 
 ```go
-import "github.com/ory-platform/google-json-style-response/responder"
+import "github.com/ory-am/google-json-style-response/responder"
 
 // ...
 func(w http.ResponseWriter, r *http.Request) {

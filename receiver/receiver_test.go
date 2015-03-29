@@ -2,7 +2,7 @@ package receiver
 
 import (
 	"bytes"
-	"github.com/ory-platform/google-json-style-response/responder"
+	"github.com/ory-am/google-json-style-response/responder"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/ory-platform/google-json-style-response/responder"
+	"github.com/ory-am/google-json-style-response/responder"
 	"io"
 )
 
